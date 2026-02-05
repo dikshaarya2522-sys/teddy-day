@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Teddy Day 🧸</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  background:radial-gradient(circle at top,#cdb4db,#ffc8dd,#ffafcc);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+.bg-blur{
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(0);
+  transition:0.8s;
+  pointer-events:none;
+}
+
+.bg-blur.active{
+  backdrop-filter:blur(8px);
+}
+
+.card{
+  position:relative;
+  padding:35px;
+  border-radius:30px;
+  background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(15px);
+  box-shadow:0 30px 60px rgba(0,0,0,0.25);
+  text-align:center;
+  z-index:2;
+}
+
+h1{
+  color:#fff;
+  font-size:2.1rem;
+  font-weight:600;
+}
+
+.sub{
+  color:#fff;
+  opacity:0.85;
+  margin:10px 0 25px;
+}
+
+.teddy{
+  position:relative;
+  width:230px;
+  margin:auto;
+}
+
+.teddy img{
+  width:100%;
+  cursor:pointer;
+  animation:breathe 4s ease-in-out infinite;
+  filter:drop-shadow(0 0 20px rgba(255,255,255,0.6));
+}
+
+@keyframes breathe{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.06);}
+}
+
+.ring{
+  position:absolute;
+  inset:-20px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.5);
+  animation:pulse 2.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(0.9);opacity:0.7;}
+  100%{transform:scale(1.3);opacity:0;}
+}
+
+.message{
+  margin-top:25px;
+  color:#fff;
+  display:none;
+}
+
+.message p{
+  font-size:1.2rem;
+  font-weight:600;
+}
+
+.type{
+  margin-top:10px;
+  font-size:0.95rem;
+  line-height:1.5;
+  white-space:pre-line;
+}
+
+.sparkle{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:0.8;
+  animation:spark 1.5s linear forwards;
+}
+
+@keyframes spark{
+  to{
+    transform:translate(var(--x),var(--y)) scale(0);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-blur" id="blur"></div>
+
+<div class="card">
+  <h1>Happy Teddy Day 🧸</h1>
+  <div class="sub">A little surprise for you…</div>
+
+  <div class="teddy" onclick="reveal()">
+    <div class="ring"></div>
+    <img src="teddy.png" id="teddy">
+  </div>
+
+  <div class="message" id="msg">
+    <p>This teddy is for you 🤍</p>
+    <div class="type" id="type"></div>
+  </div>
+</div>
+
+<script>
+const text =
+"Soft, warm and full of comfort.\nJust like this teddy,\nmay it remind you that\nyou are always cherished 🧸✨";
+
+function reveal(){
+  document.getElementById("blur").classList.add("active");
+  document.getElementById("msg").style.display="block";
+  typeText();
+  sparkles();
+}
+
+function typeText(){
+  let i=0;
+  const el=document.getElementById("type");
+  el.innerHTML="";
+  const interval=setInterval(()=>{
+    el.innerHTML+=text[i];
+    i++;
+    if(i>=text.length) clearInterval(interval);
+  },45);
+}
+
+function sparkles(){
+  for(let i=0;i<25;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*window.innerWidth+"px";
+    s.style.top=Math.random()*window.innerHeight+"px";
+    s.style.setProperty("--x",(Math.random()*200-100)+"px");
+    s.style.setProperty("--y",(Math.random()*200-100)+"px");
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+</script>
+
+</body>
+</html>
